@@ -1,0 +1,37 @@
+#!/bin/bash
+# shellify - Make any program into an interactive shell
+
+command="$1"
+prompt="$2"
+#[[ -z $2 ]] && prompt=">"
+
+if [[ -z $command ]]; then
+	echo "Usage: $0 command [prompt]"
+	exit
+fi
+
+# store command history here
+HISTFILE=~/.shellify_history
+
+# trap keyboard interrupt (control-c)
+trap '' SIGINT
+
+# read command history from file
+history -r
+
+# run loop with prompt
+while read -rep "$prompt" 2>&1 line
+do
+	[[ -z $line ]] && continue
+	[[ $line == "clear" ]] && clear && break
+	[[ $line == "exit" ]] && break
+
+	# save line to history
+	history -s "$line"
+
+	# git'r done
+	$command $line
+done
+
+# save history to file
+history -a
