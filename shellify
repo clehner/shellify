@@ -1,9 +1,7 @@
 #!/bin/bash
-# shellify - Make any program into an interactive shell
 
 command="$1"
 prompt="$2"
-#[[ -z $2 ]] && prompt=">"
 
 if [[ -z $command ]]; then
 	echo "Usage: $0 command [prompt]"
@@ -35,3 +33,33 @@ done
 
 # save history to file
 history -a
+
+exit
+# Documentation
+=pod
+
+=head1 shellify(1)
+
+Make any program into an interactive shell.
+
+=head2 Usage
+
+C<shellify <commandE<gt> [prompt]>
+
+=head3 Example
+
+Simple L<git-sh|https://github.com/rtomayko/git-sh>:
+
+=begin html
+
+<pre>
+$ shellify git 'git> '
+git> status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit (use -u to show untracked files)
+git>
+</pre>
+
+=end html
+
